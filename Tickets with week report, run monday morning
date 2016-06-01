@@ -1,0 +1,33 @@
+select Firstname, Lastname, Open, Closed, Waiting, Total_Tickets,  Week_Opened, Week_Closed, Last_Assigned, Last_Closed   from 
+(
+
+  	with temp as 
+		(
+		SELECT '' Id,  first_name as 'Firstname', last_name as 'Lastname', 
+
+		( select count(status) from tickets where users.id=tickets.assigned_to and status='open') as Open,
+		( select count(status) from tickets where users.id=tickets.assigned_to and status='waiting') as Waiting,
+		( select count(status) from tickets where users.id=tickets.assigned_to and status='closed') as Closed,
+		( select count(status) from tickets where users.id=tickets.assigned_to) as Total_Tickets,
+
+		(case when strftime('%w', datetime('now'))='1' then ( select count(status) from tickets where users.id=tickets.assigned_to and created_at >= DATE('now','-7 day' ) )
+		else 'Result at Start of Week' end)  as Week_Opened,
+		(case when strftime('%w', datetime('now'))='1' then ( select count(status) from tickets where users.id=tickets.assigned_to and status='closed' and closed_at >= DATE('now','-7 day' ) )
+		else 'Result at Start of Week' end)  as Week_Closed,
+          
+		( select created_at from tickets where users.id=tickets.assigned_to or users.id=tickets.created_by and created_at <= DATE('now' ) order by created_at desc  ) as Last_Assigned,
+		( select closed_at from tickets where users.id=tickets.assigned_to or users.id=tickets.created_by and closed_at <= DATE('now' )  order by closed_at desc  ) as Last_Closed
+
+		FROM users, tickets  
+		where Total_Tickets > 0
+		  group by first_name
+		)
+
+	select * from temp
+
+	union
+
+	select ' ' Id, '' as  first_name,'Total Tickets' as last_name, 
+		sum(Open) as Open,sum(waiting) as Waiting,sum(closed) as Closed,sum(Total_Tickets) as Total_Tickets,sum(Week_Opened) as Week_Opened,sum(Week_Closed) as Week_Closed, '' as Last_Assigned, '' as Last_Closed
+	from temp order by Id, Open desc
+)
