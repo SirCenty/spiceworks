@@ -1,0 +1,8 @@
+
+		SELECT  first_name as 'Firstname', tickets.id as ID, due_at, closed_at,
+
+                (case when closed_at < due_at or closed_at = due_at then 'met' else 'unmet' end) as Percent, 
+		status as Open
+
+		FROM users, tickets  
+		where  users.id=assigned_to and users.id='16'
