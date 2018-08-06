@@ -1,77 +1,52 @@
 FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
-# iforms-welfare
+# passport
 
-Will integrate to the Iswke Welfare APP
+for passport
 
-## Questions Collection [/questions]
+## Questions Collection [/passport]
 
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2018-08-02T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "PHP",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "BASH SCRIPT",
-                        "votes": 512
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Create a New User [POST]
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "app_id": "114",
+            "userName": "2547233624189",
+            "firstName": "Bambi",
+            "deviceid": "Bambi",
+            "lastName": "Tip",
+            "email": "Bambi.tip@trip.co.le",
+            "mobile": "254723362418",
+            "isVerified": "true",    
+            "password": "hHEcIl4jKsB6xBwUfQtBshXsrDYE1mVvEQI5kX5N4XB4dkvU1/xV2W8d9q9w8zMxWcT2E9FBuNReracQXF38FEwar/KdiEARWCzGCtewOrzwsUcnyzX0DSGnhkQBti0OGHnQZjYv7tC8ANl6M3tby+kT+tb4vRRTzB9CtPsyBL8dbaeHGzlY1DlKRpTp7i8eG5qZKt8yO8A0smqswAMgnGtXM0wNi4gsoHkg7DVfRVnC6MfGSEHPybhMMNEkctsaRfJf0EJ5Do1ZCFLb0cOdSHuHMaEjYemJPaM97zIu3E4LLBktDV4qRh2A8OK3uv5BhJm/zJLUeq34aB4DeWWtVg=="
         }
 
-+ Response 201 (application/json)
++ Response 500 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /passport/users
 
     + Body
 
+                
             {
-                "question": "Favourite programming language?",
-                "published_at": "2018-08-02T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "responseCode": "99",
+                "responseMessage": "System error, please contact support"
+            }
+            
++ dded Response 200 (application/json)
+
+    + Headers
+
+            Location: /passport/users
+
+    + Body
+
+                
+            {
+                "responseCode": "00",
+                "responseMessage": "Successful"
             }
